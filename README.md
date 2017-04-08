@@ -1,10 +1,8 @@
 # Ralyxa
 
-A Ruby framework for interacting with Amazon Alexa.
+A Ruby framework for interacting with Amazon Alexa. Designed to work with Sinatra, although can be used with a few other web frameworks.
 
-Designed to work with Sinatra, although can be used with a few other web frameworks.
-
-An example application that fetches facts about Movies is in ./example_application.
+An example application that fetches facts about movies is in the `example_application` directory.
 
 ### Getting Started
 
