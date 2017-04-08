@@ -29,12 +29,12 @@ module Alexa
       @@intents[intent_name]
     end
 
-    def respond(response_details)
-      Alexa::Response.build(response_details)
+    def respond(response_text, response_details = {})
+      Alexa::Response.build(response_details.merge(response_text: response_text))
     end
 
-    def tell(response_details)
-      respond(response_details.merge(end_session: true))
+    def tell(response_text, response_details = {})
+      respond(response_text, response_details.merge(end_session: true))
     end
 
     alias ask respond

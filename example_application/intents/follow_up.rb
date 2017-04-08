@@ -7,5 +7,5 @@ intent "FollowUp" do
   response_text = movie.cast_members if request.slot_value("Role") == "starred in"
   response_text += ". What else would you like to know?"
 
-  ask(response_text: response_text, session_attributes: { movieTitle: movie.title })
+  ask(response_text, session_attributes: { movieTitle: movie.title })
 end

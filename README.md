@@ -28,7 +28,7 @@ intent "IntentName" do
   # persisting something etc
   # this is plain Ruby, so go wild
 
-  respond(response_text: "This is what Alexa will say to the user")
+  respond("This is what Alexa will say to the user")
 end
 ```
 
@@ -44,15 +44,17 @@ When defining intents, you can use the `#ask` and `#tell` methods in place of `#
 
 ```ruby
 intent "AskMoreQuestions" do
-  ask(response_text: "What next?")
+  ask("What next?")
 end
 ```
 
 ```ruby
 intent "SayGoodbye" do
-  tell(response_text: "Goodbye.")
+  tell("Goodbye.")
 end
 ```
+
+> A `tell` is basically a `#respond` with `end_session: true`. You can use that instead if you prefer.
 
 ##### Reading and setting session attributes
 
@@ -60,7 +62,7 @@ You can persist data to an Alexa session:
 
 ```ruby
 intent "PersistThis" do
-  ask(response_text: "Got it. What now?", session_attributes: { persist: "this" })
+  ask("Got it. What now?", session_attributes: { persist: "this" })
 end
 ```
 
@@ -69,9 +71,11 @@ And, subsequently, read it:
 ```ruby
 intent "ReadFromSession" do
   persisted_data = request.session_attribute("persist")
-  ask(response_text: "You persisted: #{ persisted_data }")
+  ask("You persisted: #{ persisted_data }")
 end
 ```
+
+> Go check out the `Alexa::Request` object to see what else you can do with the `request`.
 
 ##### Ending sessions
 
@@ -79,7 +83,7 @@ If, for some reason, you want to end a session in some other way than with a `te
 
 ```ruby
 intent "ConfuseTheUser" do
-  respond(response_text: "This actually ends the session.", end_session: true)
+  respond("This actually ends the session.", end_session: true)
 end
 ```
 
@@ -92,3 +96,9 @@ intent "AMAZON.StartOverIntent" do
   ask("Starting over. What next?", start_over: true)
 end
 ```
+
+##### TODO
+
+- Cards :construction:
+- Tests for `Alexa::Handlers` and `Alexa::Skill` :construction:
+- Generator?

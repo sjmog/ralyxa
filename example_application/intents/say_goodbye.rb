@@ -1,3 +1,3 @@
 intent "SayGoodbye" do
-  tell(response_text: "Goodbye")
+  tell("Goodbye")
 end
