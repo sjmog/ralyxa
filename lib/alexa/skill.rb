@@ -1,27 +1,35 @@
-require './lib/alexa/handlers'
+require './lib/alexa/request'
+require './lib/alexa/response'
+require './lib/alexa/handler'
 
 module Alexa
   class Skill
-    INTENTS_DIRECTORY = "./intents".freeze
-    NO_INTENTS_DEFINITIONS_FOUND = <<~HEREDOC
-    \e[33m
-    WARNING: You haven't defined any intents. 
+    @@intents = {}
 
-    Please define intents inside a directory called 'intents', 
-    on the same directory level as the runfile for your server application.
-    \e[0m
-    HEREDOC
-
-    def self.register_intents
-      intent_definition_files = Dir.glob("#{ INTENTS_DIRECTORY }/*.rb")
-      warn NO_INTENTS_DEFINITIONS_FOUND if intent_definition_files.empty?
-      
-      intent_definition_files.each { |intent_definition_file| register(intent_definition_file) }
+    def initialize(request)
+      @request = request
     end
 
-    def self.register(intent_definition_file)
-      intent_definition = File.open(File.expand_path(intent_definition_file)).read
-      Alexa::Handlers.class_eval intent_definition
+    def handle(handler = Alexa::Handler)
+      intent_proc = self.class.registered_intents[request.intent_name]
+      handler.handle(intent_proc)
     end
+
+    class << self
+      def intent(intent_name, &block)
+        @@intents[intent_name] = block
+      end
+
+      def registered_intents
+        @@intents.dup
+      end
+
+      def handle(request, alexa_request_wrapper = Alexa::Request)
+        new(alexa_request_wrapper.new(request)).handle
+      end
+    end
+
+    attr_reader :request
+    private :request
   end
 end
