@@ -110,6 +110,5 @@ end
 - Cards :construction:
 - Account linking :construction:
 - Audio directives :construction:
-- SSML :construction:
 - Reprompts :construction:
 - Generator?
