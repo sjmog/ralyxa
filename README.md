@@ -95,6 +95,16 @@ intent "AMAZON.StartOverIntent" do
 end
 ```
 
+##### Using SSML
+
+You can use [Speech Synthesis Markup Language](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference) to directly control Alexa's pronunciation:
+
+```ruby
+intent "SpellOut" do
+  ask("<speak><say-as interpret-as='spell-out'>Hello World</say-as></speak>", ssml: true)
+end
+```
+
 ##### TODO
 
 - Cards :construction:

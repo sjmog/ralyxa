@@ -1,7 +1,10 @@
+require_relative './response'
+
 module Alexa
   class Handler
-    def initialize(&intent_proc)
-      @intent_proc = intent_proc
+    def initialize(response_class = Alexa::Response, &intent_proc)
+      @response_class = response_class
+      @intent_proc    = intent_proc
     end
 
     def handle
@@ -9,7 +12,7 @@ module Alexa
     end
 
     def respond(response_text, response_details = {})
-      Alexa::Response.build(response_details.merge(response_text: response_text))
+      @response_class.build(response_details.merge(response_text: response_text))
     end
 
     def tell(response_text, response_details = {})
