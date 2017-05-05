@@ -2,6 +2,8 @@
 
 A Ruby framework for interacting with Amazon Alexa. Designed to work with Sinatra, although can be used with a few other web frameworks.
 
+An example application implementing the gem can be played with [here](https://github.com/sjmog/ralyxa_example).
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -26,10 +28,10 @@ First, you've gotta pass the request from Sinatra to Ralyxa. Add a single `POST`
 
 ```ruby
 require 'sinatra'
-require './lib/alexa'
+require 'ralyxa'
 
 post '/' do
-  Alexa::Skill.handle(request)
+  Ralyxa::Skill.handle(request)
 end
 ```
 
@@ -139,13 +141,6 @@ intent "SendStandardCard" do
 end
 ```
 
-##### TODO
-
-- Account linking :construction:
-- Audio directives :construction:
-- Reprompts :construction:
-- Generator?
-
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies. Then, run `rspec` to run the tests. You can also run `irb` for an interactive prompt that will allow you to experiment.
@@ -154,6 +149,12 @@ After checking out the repo, run `bundle install` to install dependencies. Then,
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/sjmog/ralyxa. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
+The main areas of focus are:
+
+- Account linking :construction:
+- Audio directives :construction:
+- Reprompts :construction:
+- Generators?
 
 ## License
 
