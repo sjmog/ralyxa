@@ -15,11 +15,25 @@ module Alexa
     end
 
     def build
-      @options.merge!(output_speech: output_speech)
+      merge_output_speech
+      merge_card if card_exists?
+
       @response_class.hash(@options).to_json
     end
 
     private
+
+    def merge_output_speech
+      @options.merge!(output_speech: output_speech)
+    end
+
+    def merge_card
+      @options[:card] = @options[:card].to_h
+    end
+
+    def card_exists?
+      @options[:card]
+    end
 
     def output_speech
       output_speech_params = { speech: @options.delete(:response_text) }

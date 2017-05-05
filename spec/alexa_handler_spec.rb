@@ -2,8 +2,9 @@ require 'alexa/handler'
 
 RSpec.describe Alexa::Handler do
   let(:response_builder) { double(:"Alexa::ResponseBuilder") }
+  let(:card_class)       { double(:"Alexa::Card") }
   let(:intent_proc)      { Proc.new { self.class } }
-  subject(:handler)      { described_class.new(response_builder, &intent_proc) }
+  subject(:handler)      { described_class.new(response_builder, card_class, &intent_proc) }
 
   describe '#handle' do
     it 'executes an intent Proc bound to the scope of the current class' do
@@ -33,6 +34,14 @@ RSpec.describe Alexa::Handler do
         expect(handler).to receive(:respond).with(response_text, end_session: true)
 
         handler.send(:tell, "Hello World")
+      end
+    end
+
+    describe '#card' do
+      it 'constructs a card' do
+        expect(card_class).to receive(:hash).with("Title", "Body", "http://image.url")
+
+        handler.send(:card, "Title", "Body", "http://image.url")
       end
     end
   end

@@ -105,9 +105,26 @@ intent "SpellOut" do
 end
 ```
 
+##### Using Cards
+
+You can send cards to the Alexa app. Ralyxa will automatically figure out if you're trying to send a 'Simple' or 'Standard' card type:
+
+```ruby
+# Simple card
+intent "SendSimpleCard" do
+  simple_card = card("Hello World", "I'm alive!")
+  ask("What do you think of the Simple card I just sent?", card: simple_card)
+end
+
+# Standard card
+intent "SendStandardCard" do
+  standard_card = card("Hello World", "I'm alive!", "http://placehold.it/200")
+  ask("What do you think of the Standard card I just sent?", card: standard_card)
+end
+```
+
 ##### TODO
 
-- Cards :construction:
 - Account linking :construction:
 - Audio directives :construction:
 - Reprompts :construction:

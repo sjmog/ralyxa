@@ -1,10 +1,12 @@
 require_relative './response'
+require_relative './card'
 
 module Alexa
   class Handler
-    def initialize(response_builder = Alexa::ResponseBuilder, &intent_proc)
-      @response_builder    = response_builder
-      @intent_proc         = intent_proc
+    def initialize(response_builder = Alexa::ResponseBuilder, card_class = Alexa::Card, &intent_proc)
+      @response_builder = response_builder
+      @card_class       = card_class
+      @intent_proc      = intent_proc
     end
 
     def handle
@@ -17,6 +19,10 @@ module Alexa
 
     def tell(response_text, response_details = {})
       respond(response_text, response_details.merge(end_session: true))
+    end
+
+    def card(title, body, image_url = nil)
+      @card = @card_class.hash(title, body, image_url)
     end
 
     alias ask respond
