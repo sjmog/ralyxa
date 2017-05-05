@@ -38,7 +38,7 @@ RSpec.describe Alexa::Skill do
       described_class.class_variable_set(:@@intents, { "#{intent_name}" => intent_proc })
       alexa_request = double(:alexa_request, intent_name: intent_name)
 
-      expect(handler).to receive(:handle).with(intent_proc)
+      expect(handler).to receive_message_chain(:new, :handle)
 
       described_class.new(alexa_request).handle(handler)
     end

@@ -2,11 +2,12 @@ require_relative './output_speech'
 
 module Alexa
   class Response
-    def initialize(output_speech, session_attributes, end_session, start_over)
+    def initialize(output_speech, session_attributes, end_session, start_over, card)
       @output_speech      = output_speech
       @session_attributes = session_attributes
       @end_session        = end_session
       @start_over         = start_over
+      @card               = card
     end
 
     def to_h
@@ -17,8 +18,8 @@ module Alexa
       end
     end
 
-    def self.hash(output_speech: Alexa::OutputSpeech.hash, session_attributes: {}, end_session: false, start_over: false)
-      new(output_speech, session_attributes, end_session, start_over).to_h
+    def self.as_hash(output_speech: Alexa::OutputSpeech.as_hash, session_attributes: {}, end_session: false, start_over: false, card: false)
+      new(output_speech, session_attributes, end_session, start_over, card).to_h
     end
 
     private
@@ -36,6 +37,7 @@ module Alexa
     def set_response(response)
       response[:response] = Hash.new
       response[:response][:outputSpeech] = @output_speech
+      response[:response][:card] = @card if @card
       response[:response][:shouldEndSession] = @end_session if @end_session
     end
   end

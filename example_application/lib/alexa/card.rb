@@ -9,7 +9,7 @@ module Alexa
       @image_url = image_url
     end
 
-    def self.hash(title, body, image_url = nil)
+    def self.as_hash(title, body, image_url = nil)
       new(title, body, image_url).to_h
     end
 

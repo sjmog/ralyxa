@@ -14,7 +14,7 @@ module Alexa
       end
     end
 
-    def self.hash(speech: nil, ssml: false)
+    def self.as_hash(speech: nil, ssml: false)
       new(speech, ssml).to_h
     end
 

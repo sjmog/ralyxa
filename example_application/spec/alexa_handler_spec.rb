@@ -1,10 +1,9 @@
 require 'alexa/handler'
 
 RSpec.describe Alexa::Handler do
-  let(:response_builder) { double(:"Alexa::ResponseBuilder") }
-  let(:card_class)       { double(:"Alexa::Card") }
-  let(:intent_proc)      { Proc.new { self.class } }
-  subject(:handler)      { described_class.new(response_builder, card_class, &intent_proc) }
+  let(:request)     { double(:request) }
+  let(:intent_proc) { Proc.new { self.class } }
+  subject(:handler) { described_class.new(request, intent_proc) }
 
   describe '#handle' do
     it 'executes an intent Proc bound to the scope of the current class' do
@@ -15,10 +14,11 @@ RSpec.describe Alexa::Handler do
   context 'convenient intent declaration interfaces' do
     describe '#respond' do
       it 'provides a more convenient interface for constructing responses in intent declarations' do
-        response_text = "Hello World"
-        expect(response_builder).to receive(:build).with(response_text, {})
+        response_builder = double(:"Alexa::ResponseBuilder")
 
-        handler.send(:respond, "Hello World")
+        expect(response_builder).to receive(:build).with(response_text: "Hello World")
+
+        handler.send(:respond, "Hello World", {}, response_builder)
       end
     end
 
@@ -39,9 +39,11 @@ RSpec.describe Alexa::Handler do
 
     describe '#card' do
       it 'constructs a card' do
-        expect(card_class).to receive(:hash).with("Title", "Body", "http://image.url")
+        card_class = double(:"Alexa::Card")
 
-        handler.send(:card, "Title", "Body", "http://image.url")
+        expect(card_class).to receive(:as_hash).with("Title", "Body", "http://image.url")
+
+        handler.send(:card, "Title", "Body", "http://image.url", card_class)
       end
     end
   end

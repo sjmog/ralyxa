@@ -16,7 +16,7 @@ module Alexa
     def run
       warn NO_INTENT_DECLARATIONS_FOUND if intent_declarations.empty?
 
-      intent_declarations.each do |intent_declaration| 
+      intent_declarations.each do |intent_declaration|
         alexa_skill_class.class_eval intent_declaration
       end
     end

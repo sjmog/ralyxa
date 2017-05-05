@@ -1,9 +1,9 @@
 require 'alexa/card'
 
 RSpec.describe Alexa::Card do
-  subject(:card) { described_class.hash }
+  subject(:card) { described_class.as_hash }
 
-  describe '.hash' do
+  describe '.as_hash' do
     it 'generates a Simple card given only a title and body' do
       expected_result = { 
         type: "Simple", 
@@ -11,7 +11,7 @@ RSpec.describe Alexa::Card do
         content: "Hello, string!" 
       }
 
-      simple_card = described_class.hash("Hello Card", "Hello, string!")
+      simple_card = described_class.as_hash("Hello Card", "Hello, string!")
       expect(simple_card).to eq expected_result
     end
 
@@ -26,7 +26,7 @@ RSpec.describe Alexa::Card do
         }
       }
 
-      standard_card = described_class.hash("Hello Card", "Hello, string!", "http://example.com/image.jpg")
+      standard_card = described_class.as_hash("Hello Card", "Hello, string!", "http://example.com/image.jpg")
       expect(standard_card).to eq expected_result
     end
   end

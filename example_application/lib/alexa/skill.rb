@@ -11,8 +11,8 @@ module Alexa
     end
 
     def handle(handler = Alexa::Handler)
-      intent_proc = self.class.registered_intents[request.intent_name]
-      handler.handle(intent_proc)
+      intent_proc = self.class.registered_intents[@request.intent_name]
+      handler.new(@request, intent_proc).handle
     end
 
     class << self
@@ -28,8 +28,5 @@ module Alexa
         new(alexa_request_wrapper.new(request)).handle
       end
     end
-
-    attr_reader :request
-    private :request
   end
 end

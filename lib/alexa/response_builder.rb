@@ -10,7 +10,7 @@ module Alexa
       @options             = options
     end
 
-    def self.build(response_class = Alexa::Response, output_speech_class = Alexa::OutputSpeech, options = {})
+    def self.build(options = {}, response_class = Alexa::Response, output_speech_class = Alexa::OutputSpeech)
       new(response_class, output_speech_class, options).build
     end
 
@@ -18,7 +18,7 @@ module Alexa
       merge_output_speech
       merge_card if card_exists?
 
-      @response_class.hash(@options).to_json
+      @response_class.as_hash(@options).to_json
     end
 
     private
@@ -38,7 +38,8 @@ module Alexa
     def output_speech
       output_speech_params = { speech: @options.delete(:response_text) }
       output_speech_params.merge!(ssml: @options.delete(:ssml)) if @options[:ssml]
-      @output_speech_class.new(output_speech_params)
+
+      @output_speech_class.as_hash(output_speech_params)
     end
   end
 end
