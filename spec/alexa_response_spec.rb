@@ -1,7 +1,8 @@
 require 'alexa/response'
 
 RSpec.describe Alexa::Response do
-  subject(:response) { described_class.hash }
+  let(:output_speech) { { type: "PlainText", text: "Hello World" } }
+  subject(:response)  { described_class.hash(output_speech: output_speech) }
 
   describe '.hash' do
     it 'returns a hash response with a custom string if provided' do
@@ -51,7 +52,7 @@ RSpec.describe Alexa::Response do
         }
       }
 
-      session_response = described_class.hash(session_attributes: { sessionKey: "Session Value" })
+      session_response = described_class.hash(output_speech: output_speech, session_attributes: { sessionKey: "Session Value" })
       expect(session_response).to eq expected_response
     end
 
@@ -67,7 +68,7 @@ RSpec.describe Alexa::Response do
         }
       }
 
-      end_session_response = described_class.hash(end_session: true)
+      end_session_response = described_class.hash(output_speech: output_speech, end_session: true)
       expect(end_session_response).to eq expected_response
     end
 
@@ -83,7 +84,7 @@ RSpec.describe Alexa::Response do
         }
       }
 
-      start_over_response = described_class.hash(start_over: true)
+      start_over_response = described_class.hash(output_speech: output_speech, start_over: true)
       expect(start_over_response).to eq expected_response
     end
 

@@ -10,14 +10,14 @@ module Alexa
     end
 
     def to_h
-      {}.tap do |response|
+      Hash.new.tap do |response|
         set_version(response)
         set_session_attributes(response)
         set_response(response)
       end
     end
 
-    def self.hash(output_speech: Alexa::OutputSpeech.new, session_attributes: {}, end_session: false, start_over: false)
+    def self.hash(output_speech: Alexa::OutputSpeech.hash, session_attributes: {}, end_session: false, start_over: false)
       new(output_speech, session_attributes, end_session, start_over).to_h
     end
 
