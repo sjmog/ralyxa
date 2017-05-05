@@ -2,7 +2,23 @@
 
 A Ruby framework for interacting with Amazon Alexa. Designed to work with Sinatra, although can be used with a few other web frameworks.
 
-An example application that fetches facts about movies is in the `example_application` directory.
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'ralyxa'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install ralyxa
+
+## Usage
 
 ### Getting Started
 
@@ -129,3 +145,17 @@ end
 - Audio directives :construction:
 - Reprompts :construction:
 - Generator?
+
+## Development
+
+After checking out the repo, run `bundle install` to install dependencies. Then, run `rspec` to run the tests. You can also run `irb` for an interactive prompt that will allow you to experiment.
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/sjmog/ralyxa. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
