@@ -2,9 +2,8 @@ require_relative './response'
 
 module Alexa
   class Handler
-    def initialize(response_class = Alexa::Response, output_speech_class = Alexa::OutputSpeech, &intent_proc)
-      @response_class      = response_class
-      @output_speech_class = output_speech_class
+    def initialize(response_builder = Alexa::ResponseBuilder, &intent_proc)
+      @response_builder    = response_builder
       @intent_proc         = intent_proc
     end
 
@@ -13,12 +12,7 @@ module Alexa
     end
 
     def respond(response_text, response_details = {})
-      output_speech_params = { speech: response_text }
-      output_speech_params.merge!(ssml: true) if response_details.delete(:ssml)
-
-      output_speech = @output_speech_class.new(output_speech_params)
-
-      @response_class.build(response_details.merge(output_speech: output_speech))
+      @response_builder.build(response_text, response_details)
     end
 
     def tell(response_text, response_details = {})
