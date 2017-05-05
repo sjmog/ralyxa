@@ -15,7 +15,9 @@ RSpec.describe Alexa::Response do
         }
       }.to_json
 
-      custom_response = described_class.build(response_text: "Custom String")
+      output_speech = { type: "PlainText", text: "Custom String" }
+      custom_response = described_class.build(output_speech: output_speech)
+      
       expect(custom_response).to eq expected_response
     end
 
@@ -30,15 +32,9 @@ RSpec.describe Alexa::Response do
         }
       }.to_json
 
-      ssml_response = described_class.build(response_text: "<speak>Hello World</speak>", ssml: true)
+      output_speech = { type: "SSML", ssml: "<speak>Hello World</speak>" }
+      ssml_response = described_class.build(output_speech: output_speech)
       expect(ssml_response).to eq expected_response
-    end
-
-    it 'limits the outputSpeech to 140 characters' do
-      over_length_string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, noon volutpat."
-      expect(over_length_string).to receive(:slice).with(0, 140)
-      
-      described_class.build(response_text: over_length_string)
     end
 
     it 'returns a JSON response with session data if provided' do
