@@ -22,12 +22,12 @@ module Ralyxa
 
     def set_ssml(output_speech)
       output_speech[:type] = "SSML"
-      output_speech[:ssml] = (@speech || DEFAULT_RESPONSE_SSML).slice(0, 140)
+      output_speech[:ssml] = (@speech || DEFAULT_RESPONSE_SSML)
     end
 
     def set_plaintext(output_speech)
       output_speech[:type] = "PlainText"
-      output_speech[:text] = (@speech || DEFAULT_RESPONSE_TEXT).slice(0, 140)
+      output_speech[:text] = (@speech || DEFAULT_RESPONSE_TEXT)
     end
   end
 end

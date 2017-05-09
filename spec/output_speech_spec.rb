@@ -38,11 +38,10 @@ RSpec.describe Ralyxa::OutputSpeech do
       expect(Ralyxa::OutputSpeech.as_hash(ssml: true)).to eq expected_output_speech
     end
 
-    it 'limits the speech to 140 characters' do
-      over_length_string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, noon volutpat."
-      expect(over_length_string).to receive(:slice).with(0, 140)
-      
-      Ralyxa::OutputSpeech.as_hash(speech: over_length_string)
+    it 'does not limits the speech' do
+      long_string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, noon volutpat."
+
+      expect(Ralyxa::OutputSpeech.as_hash(speech: long_string)[:text]).to eq long_string
     end
   end
 end
