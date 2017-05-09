@@ -20,6 +20,16 @@ RSpec.describe Ralyxa::Request do
 
       expect(described_class.new(stubbed_request).intent_name).to eq "IntentName"
     end
+
+    it 'returns the IntentName if the request is a built-in request' do
+      stubbed_request = stub_sinatra_request({  
+        "request": {
+          "type": "LaunchRequest"
+        }
+      }.to_json)
+
+      expect(described_class.new(stubbed_request).intent_name).to eq "LaunchRequest"
+    end
   end
 
   describe '#slot_value' do
