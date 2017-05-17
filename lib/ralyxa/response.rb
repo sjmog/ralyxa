@@ -38,7 +38,7 @@ module Ralyxa
       response[:response] = Hash.new
       response[:response][:outputSpeech] = @output_speech
       response[:response][:card] = @card if @card
-      response[:response][:shouldEndSession] = @end_session if @end_session
+      response[:response][:shouldEndSession] = @end_session
     end
   end
 end

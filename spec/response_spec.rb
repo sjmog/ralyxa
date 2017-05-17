@@ -10,9 +10,10 @@ RSpec.describe Ralyxa::Response do
         version: "1.0",
         response: {
           outputSpeech: {
-              type: "PlainText",
-              text: "Custom String"
-            }
+            type: "PlainText",
+            text: "Custom String"
+          },
+          shouldEndSession: false
         }
       }
 
@@ -29,7 +30,8 @@ RSpec.describe Ralyxa::Response do
           outputSpeech: {
             type: "SSML",
             ssml: "<speak>Hello World</speak>"
-          }
+          },
+          shouldEndSession: false
         }
       }
 
@@ -46,9 +48,10 @@ RSpec.describe Ralyxa::Response do
         },
         response: {
           outputSpeech: {
-              type: "PlainText",
-              text: "Hello World"
-            }
+            type: "PlainText",
+            text: "Hello World"
+          },
+          shouldEndSession: false
         }
       }
 
@@ -80,7 +83,8 @@ RSpec.describe Ralyxa::Response do
           outputSpeech: {
             type: "PlainText",
             text: "Hello World"
-          }
+          },
+          shouldEndSession: false
         }
       }
 
@@ -95,7 +99,8 @@ RSpec.describe Ralyxa::Response do
           outputSpeech: {
               type: "PlainText",
               text: "Hello World"
-            }
+            },
+            shouldEndSession: false
         }
       }
       
