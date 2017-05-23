@@ -136,10 +136,12 @@ end
 
 # Standard card
 intent "SendStandardCard" do
-  standard_card = card("Hello World", "I'm alive!", "http://placehold.it/200")
+  standard_card = card("Hello World", "I'm alive!", "https://placehold.it/200")
   ask("What do you think of the Standard card I just sent?", card: standard_card)
 end
 ```
+
+> Card images must be under 2MB and available at an SSL-enabled (HTTPS) endpoint.
 
 ## Development
 

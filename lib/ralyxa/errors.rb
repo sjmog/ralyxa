@@ -1,0 +1,2 @@
+class UnsecureUrlError < StandardError
+end

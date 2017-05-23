@@ -21,13 +21,17 @@ RSpec.describe Ralyxa::Card do
         title: "Hello Card", 
         text: "Hello, string!", 
         image: { 
-          smallImageUrl: "http://example.com/image.jpg",
-          largeImageUrl: "http://example.com/image.jpg"
+          smallImageUrl: "https://example.com/image.jpg",
+          largeImageUrl: "https://example.com/image.jpg"
         }
       }
 
-      standard_card = described_class.as_hash("Hello Card", "Hello, string!", "http://example.com/image.jpg")
+      standard_card = described_class.as_hash("Hello Card", "Hello, string!", "https://example.com/image.jpg")
       expect(standard_card).to eq expected_result
+    end
+
+    it 'raises an error if the card is given an image that does not start with https://' do
+      expect { described_class.as_hash("Hello Card", "Hello, string!", "http://image.url") }.to raise_error UnsecureUrlError
     end
   end
 end

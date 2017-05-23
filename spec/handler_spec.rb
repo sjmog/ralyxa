@@ -41,9 +41,9 @@ RSpec.describe Ralyxa::Handler do
       it 'constructs a card' do
         card_class = double(:"Ralyxa::Card")
 
-        expect(card_class).to receive(:as_hash).with("Title", "Body", "http://image.url")
+        expect(card_class).to receive(:as_hash).with("Title", "Body", "https://image.url")
 
-        handler.send(:card, "Title", "Body", "http://image.url", card_class)
+        handler.send(:card, "Title", "Body", "https://image.url", card_class)
       end
     end
   end

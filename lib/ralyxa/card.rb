@@ -1,3 +1,5 @@
+require_relative './errors'
+
 module Ralyxa
   class Card
     SIMPLE_CARD_TYPE   = "Simple"
@@ -35,6 +37,7 @@ module Ralyxa
     end
 
     def set_image(card)
+      raise UnsecureUrlError.new("Card images must be available at an SSL-enabled (HTTPS) endpoint. Your current image url is: #{ @image_url }") unless secure?(@image_url)
       card[:image] = Hash.new
       card[:image][:smallImageUrl] = @image_url
       card[:image][:largeImageUrl] = @image_url
@@ -46,6 +49,10 @@ module Ralyxa
 
     def standard?
       !!@image_url
+    end
+
+    def secure?(url)
+      URI.parse(url).scheme == "https"
     end
   end
 end
