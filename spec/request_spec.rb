@@ -95,6 +95,43 @@ RSpec.describe Ralyxa::Request do
     end
   end
 
+  context 'delegations' do
+    let(:stubbed_request) do
+      stub_sinatra_request({
+        "session": {
+          "user": {
+            "userId": "id_string",
+            "accessToken": "access_token"
+          }
+        }
+      }.to_json)
+    end
+    let(:user) { double(:ralyxa_user) }
+    let(:user_class) { double(:"Ralyxa::User", build: user) }
+
+    describe '#user_id' do
+      it 'delegates to a user object' do
+        expect(user).to receive(:id)
+        described_class.new(stubbed_request, user_class).user_id
+      end
+    end
+
+    describe '#user_access_token' do
+      it 'delegates to a user object' do
+        expect(user).to receive(:access_token)
+        described_class.new(stubbed_request, user_class).user_access_token
+      end
+    end
+
+    describe '#user_access_token_exists?' do
+      it 'delegates to a user object' do
+        expect(user).to receive(:access_token_exists?)
+        described_class.new(stubbed_request, user_class).user_access_token_exists?
+      end
+    end
+  
+  end
+
   private
 
   def stub_sinatra_request(request_json)

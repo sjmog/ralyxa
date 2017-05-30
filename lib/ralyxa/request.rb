@@ -1,11 +1,19 @@
 require 'json'
+require 'forwardable'
+require_relative './user'
 
 module Ralyxa
   class Request
+    extend Forwardable
     INTENT_REQUEST_TYPE = "IntentRequest".freeze
 
-    def initialize(original_request)
+    def_delegator :@user, :id, :user_id
+    def_delegator :@user, :access_token, :user_access_token
+    def_delegator :@user, :access_token_exists?, :user_access_token_exists?
+
+    def initialize(original_request, user_class = Ralyxa::User)
       @request = JSON.parse(original_request.body.read)
+      @user = user_class.build(@request)
     end
 
     def intent_name
