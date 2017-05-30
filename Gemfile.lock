@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ralyxa (1.4.0)
+    ralyxa (1.5.0)
 
 GEM
   remote: https://rubygems.org/
