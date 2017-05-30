@@ -91,6 +91,16 @@ intent "ReadFromSession" do
 end
 ```
 
+##### Reading the session user
+
+You can read the session user's `userId` and `accessToken`, and check that the `accessToken` exists:
+
+```ruby
+request.user_id #=> returns the `userId` value from the request session
+request.user_access_token # => returns the `accessToken` value from the request session
+request.user_access_token_exists? # => true if the user has an access token, false if not
+```
+
 > Go check out the `Alexa::Request` object to see what else you can do with the `request`.
 
 ##### Ending sessions
