@@ -1,5 +1,7 @@
 # Ralyxa
 
+[![Build Status](https://travis-ci.org/sjmog/ralyxa.svg?branch=master)](https://travis-ci.org/sjmog/ralyxa)
+
 A Ruby framework for interacting with Amazon Alexa. Designed to work with Sinatra, although can be used with a few other web frameworks.
 
 An example application implementing the gem can be played with [here](https://github.com/sjmog/ralyxa_example).
