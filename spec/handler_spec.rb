@@ -2,12 +2,12 @@ require 'ralyxa/handler'
 
 RSpec.describe Ralyxa::Handler do
   let(:request)     { double(:request) }
-  let(:intent_proc) { Proc.new { self.class } }
-  subject(:handler) { described_class.new(request, intent_proc) }
+  let(:intent_proc) { Proc.new { |object| object } }
+  subject(:handler) { described_class.new(request) }
 
   describe '#handle' do
-    it 'executes an intent Proc bound to the scope of the current class' do
-      expect(handler.handle).to eq described_class
+    it 'is initially undefined' do
+      expect { handler.handle }.to raise_error NotImplementedError
     end
   end
 

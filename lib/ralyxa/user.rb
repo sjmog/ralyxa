@@ -9,8 +9,8 @@ module Ralyxa
 
     def self.build(request)
       new(
-        id: request.dig(:session, :user, :userId),
-        access_token: request.dig(:session, :user, :accessToken)
+        id: request.dig("session", "user", "userId"),
+        access_token: request.dig("session", "user", "accessToken")
       )
     end
 

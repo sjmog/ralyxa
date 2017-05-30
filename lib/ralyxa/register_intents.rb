@@ -33,11 +33,10 @@ module Ralyxa
 
     NO_INTENT_DECLARATIONS_FOUND = <<~HEREDOC
     \e[33m
-    WARNING: You haven't defined any intents. 
+    WARNING: You haven't defined any intent declarations. 
 
-    Please define intents inside a directory called 'intents', 
-    on the same directory level as the runfile for your server application,
-    or change the default intents directory in alexa/register_intents.rb.
+    Please define intent declarations inside a directory called 'intents', 
+    on the same directory level as the runfile for your server application.
     \e[0m
     HEREDOC
   end

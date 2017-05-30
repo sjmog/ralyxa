@@ -4,10 +4,10 @@ RSpec.describe Ralyxa::User do
   describe '.build' do
     it 'builds a user object from a request' do
       ralyxa_request = {
-        "session": {
-          "user": {
-            "userId": "someUserId",
-            "accessToken": "someAccessToken"
+        "session" => {
+          "user" => {
+            "userId" => "someUserId",
+            "accessToken" => "someAccessToken"
           }
         }
       }

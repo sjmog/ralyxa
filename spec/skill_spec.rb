@@ -1,20 +1,39 @@
 require 'ralyxa/skill'
 
 RSpec.describe Ralyxa::Skill do
-  describe '.intents' do
-    it 'starts with zero registered intents' do
-      expect(described_class.registered_intents.length).to be_zero
+  describe '.handlers' do
+    it 'starts with zero registered handlers' do
+      expect(described_class.handlers.length).to be_zero
     end
   end
 
   describe '.intent' do
-    it 'registers an intent, referencing a given Proc' do
+    it 'defines a handler, which responds to #handle by executing a given Proc within its scope' do
       intent_name = "IntentName"
-      intent_proc = Proc.new {}
+      handler_bass_class_double = Object
+      intent_block = Proc.new { self.class }
 
-      described_class.intent(intent_name, &intent_proc)
+      handler_class = described_class.intent(intent_name, handler_bass_class_double, &intent_block)
 
-      expect(described_class.registered_intents[intent_name]).to eq intent_proc
+      expect(handler_class.new.handle).to eq handler_class
+    end
+
+    it 'handles early returns in those Procs' do
+      early_return_proc = Proc.new { return "Early return!"; raise LocalJumpError }
+
+      handler_class = described_class.intent("IntentName", Object, &early_return_proc)
+
+      expect { handler_class.new.handle }.not_to raise_error LocalJumpError
+    end
+
+    it 'stores these handlers by IntentName in a dictionary' do
+      intent_name = "IntentName"
+      handler_bass_class_double = Object
+      intent_block = Proc.new { self.class }
+
+      handler_class = described_class.intent(intent_name, handler_bass_class_double, &intent_block)
+
+      expect(described_class.class_variable_get(:@@handlers)["IntentName"]).to eq handler_class
     end
   end
 
@@ -32,15 +51,23 @@ RSpec.describe Ralyxa::Skill do
 
   describe '#handle' do
     it 'delegates evaluation of an intent proc to a handler' do
-      handler       = double(:"Ralyxa::Handler")
       intent_name   = "IntentName"
-      intent_proc   = Proc.new {}
-      described_class.class_variable_set(:@@intents, { "#{intent_name}" => intent_proc })
+      handler       = class_double("Ralyxa::Handler")
+      described_class.class_variable_set(:@@handlers, { "#{intent_name}" => handler })
       alexa_request = double(:alexa_request, intent_name: intent_name)
 
       expect(handler).to receive_message_chain(:new, :handle)
 
-      described_class.new(alexa_request).handle(handler)
+      described_class.new(alexa_request).handle
+    end
+
+    it 'warns if no handler exists for a given intent' do
+      alexa_request = double(:alexa_request, intent_name: "NonExistentIntent")
+      skill = described_class.new(alexa_request)
+
+      expect(skill).to receive(:warn)
+
+      skill.handle
     end
   end
 end
