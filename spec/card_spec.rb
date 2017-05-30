@@ -34,4 +34,15 @@ RSpec.describe Ralyxa::Card do
       expect { described_class.as_hash("Hello Card", "Hello, string!", "http://image.url") }.to raise_error UnsecureUrlError
     end
   end
+
+  describe '.link_account' do
+    it 'generates a LinkAccount card' do
+      expected_result = {
+        type: "LinkAccount"
+      }
+
+      link_account_card = described_class.link_account
+      expect(link_account_card).to eq expected_result
+    end
+  end
 end

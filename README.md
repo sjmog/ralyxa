@@ -153,6 +153,18 @@ end
 
 > Card images must be under 2MB and available at an SSL-enabled (HTTPS) endpoint.
 
+##### Account Linking
+
+You can ask Alexa to send a [`LinkAccount`](https://developer.amazon.com/blogs/post/Tx3CX1ETRZZ2NPC/Alexa-Account-Linking-5-Steps-to-Seamlessly-Link-Your-Alexa-Skill-with-Login-wit) card for the user to authenticate via OAuth:
+
+```ruby
+intent "SendAccountLinkingCard" do
+  tell("Please authorize via the Alexa app.", card: link_account_card)
+end
+```
+
+After completing authentication, the user's access token is available via `request.user_access_token`. You can check for its existence with `request.user_access_token_exists?`.
+
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies. Then, run `rspec` to run the tests. You can also run `irb` for an interactive prompt that will allow you to experiment.

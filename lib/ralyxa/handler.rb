@@ -24,6 +24,10 @@ module Ralyxa
       card_class.as_hash(title, body, image_url)
     end
 
+    def link_account_card(card_class = Ralyxa::Card)
+      card_class.link_account
+    end
+
     alias ask respond
 
     attr_reader :request

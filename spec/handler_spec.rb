@@ -46,5 +46,15 @@ RSpec.describe Ralyxa::Handler do
         handler.send(:card, "Title", "Body", "https://image.url", card_class)
       end
     end
+
+    describe '#link_account_card' do
+      it 'constructs an Account Linking card' do
+        card_class = double(:"Ralyxa::Card")
+
+        expect(card_class).to receive(:link_account)
+
+        handler.send(:link_account_card, card_class)
+      end
+    end
   end
 end
