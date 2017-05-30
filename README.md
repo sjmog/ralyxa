@@ -165,6 +165,29 @@ end
 
 After completing authentication, the user's access token is available via `request.user_access_token`. You can check for its existence with `request.user_access_token_exists?`.
 
+If, for example, you wanted to require authorization for an intent called `SecretIntent`:
+
+```ruby
+intent "SecretIntent" do
+  return tell("Please authorize via the Alexa app", card: link_account_card) unless request.user_access_token_exists?
+  ask("Welcome to the secret zone. What's next?")
+end
+```
+
+## Ephemera
+
+> Alexa says there's a problem if I just fail to reply to a prompt!
+
+This is probably because your application is not handling the `SessionEndedRequest` intent. That's a built-in intent that kicks in after the user says 'exit', or nothing at all, in response to an ask. You'll probably see a warning in your server logs. To resolve it, implement the following intent:
+
+```ruby
+intent "SessionEndedRequest" do
+  respond
+end
+```
+
+> You can't actually respond to a `SessionEndedRequest`, but you might want to do some tidying in this action.
+
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies. Then, run `rspec` to run the tests. You can also run `irb` for an interactive prompt that will allow you to experiment.
@@ -175,10 +198,9 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/sjmog/
 
 The main areas of focus are:
 
-- Account linking :construction:
 - Audio directives :construction:
 - Reprompts :construction:
-- Generators?
+- Generators of built-in Intents e.g. `SessionEndedRequest`
 
 ## License
 
