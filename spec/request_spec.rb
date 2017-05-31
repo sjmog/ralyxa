@@ -1,6 +1,6 @@
-require 'ralyxa/request'
+require 'ralyxa/request_entities/request'
 
-RSpec.describe Ralyxa::Request do
+RSpec.describe Ralyxa::RequestEntities::Request do
   describe '#intent_name' do
     it 'returns the IntentName from the request' do
       stubbed_request = stub_sinatra_request({  

@@ -1,5 +1,4 @@
-require_relative './request'
-require_relative './response'
+require_relative './request_entities/request'
 require_relative './handler'
 
 # Routes an incoming request to the correct Handler.
@@ -23,7 +22,7 @@ module Ralyxa
         @@handlers[intent_name] = intent_handler
       end
 
-      def handle(request, alexa_request_wrapper = Ralyxa::Request)
+      def handle(request, alexa_request_wrapper = Ralyxa::RequestEntities::Request)
         new(alexa_request_wrapper.new(request)).handle
       end
 

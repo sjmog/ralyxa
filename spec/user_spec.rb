@@ -1,6 +1,6 @@
-require 'ralyxa/user'
+require 'ralyxa/request_entities/user'
 
-RSpec.describe Ralyxa::User do
+RSpec.describe Ralyxa::RequestEntities::User do
   describe '.build' do
     it 'builds a user object from a request' do
       ralyxa_request = {

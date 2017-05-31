@@ -1,6 +1,6 @@
-require 'ralyxa/response'
+require 'ralyxa/response_entities/response'
 
-RSpec.describe Ralyxa::Response do
+RSpec.describe Ralyxa::ResponseEntities::Response do
   let(:output_speech) { { type: "PlainText", text: "Hello World" } }
   subject(:response)  { described_class.as_hash(output_speech: output_speech) }
 

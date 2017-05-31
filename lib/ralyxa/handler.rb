@@ -1,5 +1,5 @@
 require_relative './response_builder'
-require_relative './card'
+require_relative './response_entities/card'
 
 # Handler Base Class. Each Intent Handler inherits from this, and overwrites the #handle method.
 module Ralyxa
@@ -20,11 +20,11 @@ module Ralyxa
       respond(response_text, response_details.merge(end_session: true))
     end
 
-    def card(title, body, image_url = nil, card_class = Ralyxa::Card)
+    def card(title, body, image_url = nil, card_class = Ralyxa::ResponseEntities::Card)
       card_class.as_hash(title, body, image_url)
     end
 
-    def link_account_card(card_class = Ralyxa::Card)
+    def link_account_card(card_class = Ralyxa::ResponseEntities::Card)
       card_class.link_account
     end
 

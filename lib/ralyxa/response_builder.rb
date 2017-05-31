@@ -1,6 +1,5 @@
 require 'json'
-require_relative './response'
-require_relative './output_speech'
+require_relative './response_entities/response'
 
 module Ralyxa
   class ResponseBuilder
@@ -10,7 +9,7 @@ module Ralyxa
       @options             = options
     end
 
-    def self.build(options = {}, response_class = Ralyxa::Response, output_speech_class = Ralyxa::OutputSpeech)
+    def self.build(options = {}, response_class = Ralyxa::ResponseEntities::Response, output_speech_class = Ralyxa::ResponseEntities::OutputSpeech)
       new(response_class, output_speech_class, options).build
     end
 

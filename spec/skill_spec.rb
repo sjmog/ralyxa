@@ -40,7 +40,7 @@ RSpec.describe Ralyxa::Skill do
   describe '.handle' do
     it 'builds an Alexa Request and handles it' do
       request = double(:request, body: StringIO.new("{}"))
-      alexa_request_wrapper = double(:"Ralyxa::Request")
+      alexa_request_wrapper = double(:"Ralyxa::RequestEntities::Request")
 
       expect(described_class).to receive_message_chain(:new, :handle)
       expect(alexa_request_wrapper).to receive(:new).with(request)

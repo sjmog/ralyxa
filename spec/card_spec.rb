@@ -1,6 +1,6 @@
-require 'ralyxa/card'
+require 'ralyxa/response_entities/card'
 
-RSpec.describe Ralyxa::Card do
+RSpec.describe Ralyxa::ResponseEntities::Card do
   subject(:card) { described_class.as_hash }
 
   describe '.as_hash' do
