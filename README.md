@@ -190,6 +190,25 @@ end
 
 > You can't actually respond to a `SessionEndedRequest`, but you might want to do some tidying in this action.
 
+## Testing
+Part of Amazon's requirements for Alexa skills is that they have to ensure requests are sent from Amazon. This is done in a number of ways documented [here](https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html). This verification is built into Ralyxa and can cause issues when testing your skills with stubbed data.
+
+### Disabling verification
+Inside of your spec_helper files, include the following to disable verification:
+
+#### RSpec
+```ruby
+require 'ralyxa'
+
+RSpec.configure do |config|
+  config.before :each do
+    Ralyxa.configure do |config|
+      config.validate_requests = false
+    end
+  end
+end
+```
+
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies. Then, run `rspec` to run the tests. You can also run `irb` for an interactive prompt that will allow you to experiment.

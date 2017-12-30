@@ -12,11 +12,11 @@ module Ralyxa
       raise NotImplementedError
     end
 
-    def respond(response_text = "", response_details = {}, response_builder = Ralyxa::ResponseBuilder)
+    def respond(response_text = '', response_details = {}, response_builder = Ralyxa::ResponseBuilder)
       response_builder.build(response_details.merge(response_text: response_text))
     end
 
-    def tell(response_text = "", response_details = {})
+    def tell(response_text = '', response_details = {})
       respond(response_text, response_details.merge(end_session: true))
     end
 

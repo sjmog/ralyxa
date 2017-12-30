@@ -1,0 +1,13 @@
+AllCops:
+  Exclude:
+    - spec/**/*.rb
+  TargetRubyVersion: 2.3.1
+
+Metrics/LineLength:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Documentation:
+    Enabled: false
