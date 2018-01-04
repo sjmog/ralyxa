@@ -36,7 +36,7 @@ module Ralyxa
 
     def output_speech
       output_speech_params = { speech: @options.delete(:response_text) }
-      output_speech_params.merge!(ssml: @options.delete(:ssml)) if @options[:ssml]
+      output_speech_params[:ssml] = @options.delete(:ssml) if @options[:ssml]
 
       @output_speech_class.as_hash(output_speech_params)
     end

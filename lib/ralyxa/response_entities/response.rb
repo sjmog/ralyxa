@@ -12,10 +12,10 @@ module Ralyxa
       end
 
       def to_h
-        Hash.new.tap do |response|
-          set_version(response)
-          set_session_attributes(response)
-          set_response(response)
+        {}.tap do |response|
+          add_version(response)
+          add_session_attributes(response)
+          add_response(response)
         end
       end
 
@@ -24,19 +24,20 @@ module Ralyxa
       end
 
       private
+
       attr_reader :response
 
-      def set_version(response)
-        response[:version] = "1.0"
+      def add_version(response)
+        response[:version] = '1.0'
       end
 
-      def set_session_attributes(response)
+      def add_session_attributes(response)
         return response[:sessionAttributes] = {} if @start_over
         response[:sessionAttributes] = @session_attributes unless @session_attributes.empty?
       end
 
-      def set_response(response)
-        response[:response] = Hash.new
+      def add_response(response)
+        response[:response] = {}
         response[:response][:outputSpeech] = @output_speech
         response[:response][:card] = @card if @card
         response[:response][:shouldEndSession] = @end_session

@@ -10,13 +10,13 @@ module Ralyxa
 
       def self.build(request)
         new(
-          id: request.dig("session", "user", "userId"),
-          access_token: request.dig("session", "user", "accessToken")
+          id: request.dig('session', 'user', 'userId'),
+          access_token: request.dig('session', 'user', 'accessToken')
         )
       end
 
       def access_token_exists?
-        !!@access_token
+        !@access_token.nil?
       end
     end
   end

@@ -33,7 +33,7 @@ RSpec.describe Ralyxa::Skill do
 
       handler_class = described_class.intent(intent_name, handler_bass_class_double, &intent_block)
 
-      expect(described_class.class_variable_get(:@@handlers)["IntentName"]).to eq handler_class
+      expect(described_class.instance_variable_get(:@handlers)["IntentName"]).to eq handler_class
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.describe Ralyxa::Skill do
     it 'delegates evaluation of an intent proc to a handler' do
       intent_name   = "IntentName"
       handler       = class_double("Ralyxa::Handler")
-      described_class.class_variable_set(:@@handlers, { "#{intent_name}" => handler })
+      described_class.instance_variable_set(:@handlers, { "#{intent_name}" => handler })
       alexa_request = double(:alexa_request, intent_name: intent_name)
 
       expect(handler).to receive_message_chain(:new, :handle)

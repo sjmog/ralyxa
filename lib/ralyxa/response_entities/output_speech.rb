@@ -1,8 +1,8 @@
 module Ralyxa
   module ResponseEntities
     class OutputSpeech
-      DEFAULT_RESPONSE_TEXT = "Hello World"
-      DEFAULT_RESPONSE_SSML = "<speak>Hello World</speak>"
+      DEFAULT_RESPONSE_TEXT = 'Hello World'.freeze
+      DEFAULT_RESPONSE_SSML = '<speak>Hello World</speak>'.freeze
 
       def initialize(speech, ssml)
         @speech = speech
@@ -10,8 +10,8 @@ module Ralyxa
       end
 
       def to_h
-        Hash.new.tap do |output_speech|
-          @ssml ? set_ssml(output_speech) : set_plaintext(output_speech)
+        {}.tap do |output_speech|
+          @ssml ? add_ssml(output_speech) : add_plaintext(output_speech)
         end
       end
 
@@ -21,13 +21,13 @@ module Ralyxa
 
       private
 
-      def set_ssml(output_speech)
-        output_speech[:type] = "SSML"
+      def add_ssml(output_speech)
+        output_speech[:type] = 'SSML'
         output_speech[:ssml] = (@speech || DEFAULT_RESPONSE_SSML)
       end
 
-      def set_plaintext(output_speech)
-        output_speech[:type] = "PlainText"
+      def add_plaintext(output_speech)
+        output_speech[:type] = 'PlainText'
         output_speech[:text] = (@speech || DEFAULT_RESPONSE_TEXT)
       end
     end
