@@ -6,19 +6,15 @@ RSpec.describe Ralyxa::Configuration do
   describe '#initialize' do
     it 'sets default configuration values' do
       expect(ralyxa_configuration.validate_requests).to eq(true)
+      expect(ralyxa_configuration.require_secure_urls).to eq(true)
     end
   end
 
   describe '#validate_requests?' do
-    it 'returns the value of validate_request' do
-      configuration = ralyxa_configuration
-      expect(configuration.validate_requests?).to eq(true)
+    it_should_behave_like 'a configuration option', :validate_requests
+  end
 
-      configuration.validate_requests = false
-      expect(configuration.validate_requests?).to eq(false)
-
-      configuration.validate_requests = 'foo'
-      expect(configuration.validate_requests?).to eq('foo')
-    end
+  describe '#require_secure_urls?' do
+    it_should_behave_like 'a configuration option', :require_secure_urls
   end
 end

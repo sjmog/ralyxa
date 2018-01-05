@@ -18,7 +18,7 @@ RSpec.describe Ralyxa::Handler do
 
         expect(response_builder).to receive(:build).with(response_text: "Hello World")
 
-        handler.send(:respond, "Hello World", {}, response_builder)
+        handler.send(:respond, 'Hello World', {}, response_builder)
       end
     end
 
@@ -47,6 +47,12 @@ RSpec.describe Ralyxa::Handler do
       end
     end
 
+    describe '#audio_player' do
+      it 'creates a new instance of Ralyxa::ResponseEndities::Directives::AudioPlayer' do
+        expect(handler.audio_player).to eq(Ralyxa::ResponseEntities::Directives::AudioPlayer)
+      end
+    end
+
     describe '#link_account_card' do
       it 'constructs an Account Linking card' do
         card_class = double(:"Ralyxa::Card")
@@ -54,6 +60,25 @@ RSpec.describe Ralyxa::Handler do
         expect(card_class).to receive(:link_account)
 
         handler.send(:link_account_card, card_class)
+      end
+    end
+
+    describe '#log' do
+      before :each do
+        Timecop.freeze(Time.local(2017, 01, 28, 00, 16, 04))
+
+        @handler = handler
+        @handler.instance_variable_set(:@request, double(:request, user_id: 'user-1'))
+      end
+
+      after :each do
+        Timecop.return
+      end
+
+      it 'passes the expected information to puts' do
+        expect(STDOUT).to receive(:puts).with('[2017-01-28 00:16:04 +0000] [user-1] TEST - This is a test message')
+
+        handler.send(:log, 'TEST', 'This is a test message')
       end
     end
   end
