@@ -1,7 +1,8 @@
 require 'ralyxa/handler'
 
 RSpec.describe Ralyxa::Handler do
-  let(:request)     { double(:request) }
+  let(:intent)      { double(:intent) }
+  let(:request)     { double(:request, intent: intent) }
   let(:intent_proc) { Proc.new { |object| object } }
   subject(:handler) { described_class.new(request) }
 
@@ -54,6 +55,21 @@ RSpec.describe Ralyxa::Handler do
         expect(card_class).to receive(:link_account)
 
         handler.send(:link_account_card, card_class)
+      end
+    end
+  end
+
+  describe 'dialog' do
+    context 'delegate' do
+      it 'just sends the dialog.delegate method back as response with all intent field populated' do
+        dialog_delegate_hash = {
+          type: "Dialog.Delegate",
+          updatedIntent: request.intent
+        }
+
+        expect(handler).to receive(:respond).with('', dialog_delegate_hash)
+
+        handler.send(:dialog_delegate)
       end
     end
   end

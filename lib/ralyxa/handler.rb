@@ -28,6 +28,14 @@ module Ralyxa
       card_class.link_account
     end
 
+    def dialog_delegate
+      respond(
+        '',
+        type: "Dialog.Delegate",
+        updatedIntent: request.intent
+      )
+    end
+
     alias ask respond
 
     attr_reader :request
