@@ -15,6 +15,7 @@ module Ralyxa
 
       def initialize(original_request, user_class = Ralyxa::RequestEntities::User)
         @request = JSON.parse(original_request.body.read)
+        original_request.body.rewind
         @user = user_class.build(@request)
 
         validate_request(original_request) if Ralyxa.configuration.validate_requests?
