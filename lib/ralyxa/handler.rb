@@ -71,7 +71,7 @@ module Ralyxa
               slotToElicit: slot
             }
           ]
-        )
+        }
       }.to_json
     end
 
