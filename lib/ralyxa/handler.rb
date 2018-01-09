@@ -28,12 +28,29 @@ module Ralyxa
       card_class.link_account
     end
 
-    def dialog_delegate
-      respond(
-        '',
-        type: "Dialog.Delegate",
-        updatedIntent: request.intent
-      )
+    def dialog_delegate(response_text = nil)
+      response = if response_text
+          outputSpeech: {
+            type: "PlainText",
+            text: response_text
+          }
+        else
+          {}
+        end
+
+      {
+        version: "1.0",
+        sessionAttributes: {},
+        response: response.merge(
+
+          shouldEndSession: false,
+          directives: [
+            {
+              type: "Dialog.Delegate",
+            }
+          ]
+        )
+      }
     end
 
     alias ask respond

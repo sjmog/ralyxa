@@ -13,9 +13,11 @@ module Ralyxa
       new(response_class, output_speech_class, options).build
     end
 
-    def build
+    def build(options = nil)
+      @option = options if options # allow class inject to be done in handler
       merge_output_speech
       merge_card if card_exists?
+      merge_directive if @options[:dialog_type]
 
       @response_class.as_hash(@options).to_json
     end
@@ -23,7 +25,7 @@ module Ralyxa
     private
 
     def merge_output_speech
-      @options.merge!(output_speech: output_speech)
+      @options.merge!(output_speech: output_speech) if @output_speech_class
     end
 
     def merge_card
