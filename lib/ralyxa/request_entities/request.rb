@@ -15,7 +15,8 @@ module Ralyxa
 
       def initialize(original_request, user_class = Ralyxa::RequestEntities::User)
         @request = JSON.parse(original_request.body.read)
-        original_request.body.rewind
+        attempt_to_rewind_request_body(original_request)
+
         @user = user_class.build(@request)
 
         validate_request(original_request) if Ralyxa.configuration.validate_requests?
@@ -46,6 +47,10 @@ module Ralyxa
 
       def validate_request(request)
         AlexaVerifier.valid!(request)
+      end
+
+      def attempt_to_rewind_request_body(original_request)
+        original_request.body&.rewind
       end
     end
   end
