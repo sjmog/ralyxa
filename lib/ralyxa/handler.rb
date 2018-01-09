@@ -55,6 +55,26 @@ module Ralyxa
       }.to_json
     end
 
+    def dialog_elicit(response_text, slot)
+      {
+        version: "1.0",
+        sessionAttributes: {},
+        response: {
+          outputSpeech: {
+            type: "PlainText",
+            text: response_text
+          },
+          shouldEndSession: false,
+          directives: [
+            {
+              type: "Dialog.ElicitSlot",
+              slotToElicit: slot
+            }
+          ]
+        )
+      }.to_json
+    end
+
     alias ask respond
 
     attr_reader :request
