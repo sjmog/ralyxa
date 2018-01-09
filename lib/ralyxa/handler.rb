@@ -30,9 +30,11 @@ module Ralyxa
 
     def dialog_delegate(response_text = nil)
       response = if response_text
-          outputSpeech: {
-            type: "PlainText",
-            text: response_text
+          {
+            outputSpeech: {
+              type: "PlainText",
+              text: response_text
+            }
           }
         else
           {}
