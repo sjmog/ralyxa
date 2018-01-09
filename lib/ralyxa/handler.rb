@@ -52,7 +52,7 @@ module Ralyxa
             }
           ]
         )
-      }
+      }.to_json
     end
 
     alias ask respond
