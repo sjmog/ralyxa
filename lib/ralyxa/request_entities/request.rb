@@ -39,6 +39,10 @@ module Ralyxa
         @request['session']['attributes'][attribute_name]
       end
 
+      def intent
+        @request['request']['intent'].deep_dup
+      end
+
       private
 
       def intent_request?
