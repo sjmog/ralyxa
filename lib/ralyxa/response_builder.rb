@@ -14,7 +14,7 @@ module Ralyxa
     end
 
     def build
-      merge_output_speech
+      merge_output_speech if response_text_exists?
       merge_card if card_exists?
 
       @response_class.as_hash(@options).to_json
@@ -32,6 +32,10 @@ module Ralyxa
 
     def card_exists?
       @options[:card]
+    end
+
+    def response_text_exists?
+      @options[:response_text]
     end
 
     def output_speech

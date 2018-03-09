@@ -13,7 +13,10 @@ module Ralyxa
     end
 
     def respond(response_text = '', response_details = {}, response_builder = Ralyxa::ResponseBuilder)
-      response_builder.build(response_details.merge(response_text: response_text))
+      options = response_details
+      options[:response_text] = response_text if response_text
+
+      response_builder.build(options)
     end
 
     def tell(response_text = '', response_details = {})
@@ -24,8 +27,16 @@ module Ralyxa
       card_class.as_hash(title, body, image_url)
     end
 
+    def audio_player
+      Ralyxa::ResponseEntities::Directives::AudioPlayer
+    end
+
     def link_account_card(card_class = Ralyxa::ResponseEntities::Card)
       card_class.link_account
+    end
+
+    def log(level, message)
+      puts "[#{Time.new}] [#{@request.user_id}] #{level} - #{message}"
     end
 
     alias ask respond

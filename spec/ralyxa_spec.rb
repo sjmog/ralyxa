@@ -35,6 +35,10 @@ RSpec.describe Ralyxa do
       Ralyxa.validate_requests = 'foo'
       expect(Ralyxa.validate_requests).to eq('foo')
     end
+
+    it 'raises the expected method missing error for a genuinely missing method' do
+      expect{ Ralyxa.foo }.to raise_error(NoMethodError, 'undefined method `foo\' for Ralyxa:Module')
+    end
   end
 
   describe '#respond_to_missing' do

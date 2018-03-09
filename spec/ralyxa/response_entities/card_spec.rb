@@ -15,23 +15,57 @@ RSpec.describe Ralyxa::ResponseEntities::Card do
       expect(simple_card).to eq expected_result
     end
 
-    it 'generates a Standard card given title, body, and an image URL' do
+    it 'generates a Standard card given title, body, and an image hash' do
       expected_result = {
         type: "Standard", 
         title: "Hello Card", 
         text: "Hello, string!", 
         image: { 
-          smallImageUrl: "https://example.com/image.jpg",
-          largeImageUrl: "https://example.com/image.jpg"
+          smallImageUrl: "https://image.url",
+          largeImageUrl: "https://large.image.url"
         }
       }
 
-      standard_card = described_class.as_hash("Hello Card", "Hello, string!", "https://example.com/image.jpg")
+      standard_card = described_class.as_hash("Hello Card", "Hello, string!", "https://image.url", "https://large.image.url")
       expect(standard_card).to eq expected_result
     end
 
     it 'raises an error if the card is given an image that does not start with https://' do
-      expect { described_class.as_hash("Hello Card", "Hello, string!", "http://image.url") }.to raise_error UnsecureUrlError
+      Ralyxa.require_secure_urls = true
+
+      expect { described_class.as_hash("Hello Card", "Hello, string!", "http://image.url", "http://large.image.url") }.to raise_error Ralyxa::UnsecureUrlError
+    end
+
+    context 'with an incomplete image hash' do
+      it 'generates the expected standard card with a small and large image based on the small image' do
+        expected_result = {
+            type: "Standard",
+            title: "Hello Card",
+            text: "Hello, string!",
+            image: {
+                smallImageUrl: "https://image.url",
+                largeImageUrl: "https://image.url"
+            }
+        }
+
+        standard_card = described_class.as_hash("Hello Card", "Hello, string!", "https://image.url")
+        expect(standard_card).to eq expected_result
+      end
+
+      it 'generates the expected standard card with a small and large image based on the large image' do
+        expected_result = {
+            type: "Standard",
+            title: "Hello Card",
+            text: "Hello, string!",
+            image: {
+                smallImageUrl: "https://large.image.url",
+                largeImageUrl: "https://large.image.url"
+            }
+        }
+
+        standard_card = described_class.as_hash("Hello Card", "Hello, string!", nil, "https://large.image.url")
+        expect(standard_card).to eq expected_result
+      end
     end
   end
 

@@ -5,6 +5,19 @@ RSpec.describe Ralyxa::ResponseEntities::Response do
   subject(:response)  { described_class.as_hash(output_speech: output_speech) }
 
   describe '.as_hash' do
+    it 'returns an empty response if no options are provided' do
+      expected_response = {
+          version: "1.0",
+          response: {
+              shouldEndSession: false
+          }
+      }
+
+      custom_response = described_class.as_hash({})
+
+      expect(custom_response).to eq expected_response
+    end
+
     it 'returns a hash response with a custom string if provided' do
       expected_response = {
         version: "1.0",

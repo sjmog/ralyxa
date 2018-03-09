@@ -28,16 +28,26 @@ RSpec.describe Ralyxa::ResponseBuilder do
       Ralyxa::ResponseBuilder.build({ card: card }, response_class, output_speech_class)
     end
 
-    it 'plugs the OutputSpeech hash into the Response' do
-      expect(response_class).to receive(:as_hash).with(output_speech: output_speech)
+    context 'with a response_text value' do
+      it 'plugs the OutputSpeech hash into the Response ' do
+        expect(response_class).to receive(:as_hash).with(output_speech: output_speech)
 
-      Ralyxa::ResponseBuilder.build({}, response_class, output_speech_class)
+        Ralyxa::ResponseBuilder.build({response_text: ''}, response_class, output_speech_class)
+      end
+    end
+
+    context 'without a response_text value' do
+      it 'returns an empty hash' do
+        expect(response_class).to receive(:as_hash).with({})
+
+        Ralyxa::ResponseBuilder.build({}, response_class, output_speech_class)
+      end
     end
 
     it 'plugs a Card hash into the Response' do
       card = double(:alexa_card, to_h: {})
 
-      expect(response_class).to receive(:as_hash).with(output_speech: output_speech, card: card.to_h)
+      expect(response_class).to receive(:as_hash).with(card: card.to_h)
 
       Ralyxa::ResponseBuilder.build({ card: card }, response_class, output_speech_class)
     end

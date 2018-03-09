@@ -93,6 +93,55 @@ intent "ReadFromSession" do
 end
 ```
 
+##### Playing audio with the `AudioPlayer` directive
+
+###### Play
+
+You can play an audio stream right away with:
+
+```ruby
+intent "PlayAudio" do
+  audio_player.play(
+    'https://s3.amazonaws.com/my-ssml-samples/Flourish.mp3',
+    'flourish-token',
+    speech: 'Playing Audio'
+  )
+end
+```
+
+###### Play Later (Enqueue)
+
+You can queue a song to play next with:
+
+```ruby
+intent "PlayAudioLater" do
+  audio_player.play_later(
+    'https://s3.amazonaws.com/my-ssml-samples/Flourish.mp3',
+    'flourish-token'
+  )
+end
+```
+
+###### Stop
+
+You can stop playing with:
+
+```ruby
+intent "StopAudio" do
+  audio_player.stop
+end
+```
+
+###### Clear Queued
+
+You can clear enqueued audio with:
+
+```ruby
+intent "ClearQueue" do
+  audio_player.clear_queue
+end
+```
+
 ##### Reading the session user
 
 You can read the session user's `userId` and `accessToken`, and check that the `accessToken` exists:
@@ -148,7 +197,8 @@ end
 
 # Standard card
 intent "SendStandardCard" do
-  standard_card = card("Hello World", "I'm alive!", "https://placehold.it/200")
+  standard_card = card("Hello World", "I'm alive!", "http://placehold.it/720x480", "http://placehold.it/1200x800")
+  
   ask("What do you think of the Standard card I just sent?", card: standard_card)
 end
 ```
@@ -190,6 +240,20 @@ end
 
 > You can't actually respond to a `SessionEndedRequest`, but you might want to do some tidying in this action.
 
+
+### I want to serve card images, audio stream etc. over HTTP not HTTPS
+
+In some special cases, you may be allowed to serve content over HTTP instead of HTTPS. To allow this within Ralyxa, you need to set the `require_secure_urls` configuration option to false.
+
+> **NOTE:** In order to use HTTP sources, you must be given special approval directly from Amazon. If you use HTTP sources without getting advanced approval, your skill will not work correctly.
+
+```ruby
+Ralyxa.configure do |config|
+  config.require_secure_urls = false
+end
+```
+
+
 ## Testing
 Part of Amazon's requirements for Alexa skills is that they have to ensure requests are sent from Amazon. This is done in a number of ways documented [here](https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html). This verification is built into Ralyxa and can cause issues when testing your skills with stubbed data.
 
@@ -219,9 +283,10 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/sjmog/
 
 The main areas of focus are:
 
-- Audio directives :construction:
 - Reprompts :construction:
+- Dialogue :construction:
 - Generators of built-in Intents e.g. `SessionEndedRequest`
+- Automation with the `AVS` command line tool
 
 ## License
 

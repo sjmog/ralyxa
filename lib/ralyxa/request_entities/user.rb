@@ -9,9 +9,11 @@ module Ralyxa
       end
 
       def self.build(request)
+        user_hash = request.dig('session', 'user') || request.dig('context', 'System', 'user') || {}
+
         new(
-          id: request.dig('session', 'user', 'userId'),
-          access_token: request.dig('session', 'user', 'accessToken')
+          id: user_hash['userId'],
+          access_token: user_hash['accessToken']
         )
       end
 

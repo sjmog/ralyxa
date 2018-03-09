@@ -13,13 +13,15 @@ module Ralyxa
       def_delegator :@user, :access_token, :user_access_token
       def_delegator :@user, :access_token_exists?, :user_access_token_exists?
 
+      attr_reader :request
+
       def initialize(original_request, user_class = Ralyxa::RequestEntities::User)
+        validate_request(original_request) if Ralyxa.configuration.validate_requests?
+
         @request = JSON.parse(original_request.body.read)
         attempt_to_rewind_request_body(original_request)
 
         @user = user_class.build(@request)
-
-        validate_request(original_request) if Ralyxa.configuration.validate_requests?
       end
 
       def intent_name
@@ -35,8 +37,12 @@ module Ralyxa
         @request['session']['new']
       end
 
+      def session_attributes
+        @request['session']['attributes']
+      end
+
       def session_attribute(attribute_name)
-        @request['session']['attributes'][attribute_name]
+        session_attributes[attribute_name]
       end
 
       private

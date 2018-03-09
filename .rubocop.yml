@@ -6,6 +6,9 @@ AllCops:
 Metrics/LineLength:
   Enabled: false
 
+Metrics/ParameterLists:
+  Max: 6
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 

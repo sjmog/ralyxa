@@ -1,3 +1,8 @@
+require 'simplecov'
+SimpleCov.start do
+  add_filter %r{^/spec/}
+end
+
 require 'ralyxa'
 require 'vcr'
 require 'timecop'
@@ -13,9 +18,12 @@ RSpec.configure do |config|
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
+  Dir["./spec/support/**/*.rb"].each {|f| require f}
+
   config.before :each do
     Ralyxa.configure do |config|
       config.validate_requests = false
+      config.require_secure_urls = false
     end
   end
 end

@@ -11,8 +11,8 @@ module Ralyxa
         @options = options
       end
 
-      def self.as_hash(title, body, image_url = nil)
-        new(title: title, body: body, image_url: image_url).to_h
+      def self.as_hash(title, body, small_image_url = nil, large_image_url = small_image_url)
+        new(title: title, body: body, small_image_url: small_image_url, large_image_url: large_image_url).to_h
       end
 
       def self.link_account
@@ -24,7 +24,7 @@ module Ralyxa
           add_type(card)
           add_title(card) if @options[:title]
           add_body(card)  if @options[:body]
-          add_image(card) if @options[:image_url]
+          add_image(card) if standard?
         end
       end
 
@@ -46,10 +46,14 @@ module Ralyxa
       end
 
       def add_image(card)
-        raise UnsecureUrlError, "Card images must be available at an SSL-enabled (HTTPS) endpoint. Your current image url is: #{@options[:image_url]}" unless secure?
+        raise Ralyxa::UnsecureUrlError, "Card images must be available at an SSL-enabled (HTTPS) endpoint. Your current image urls are: (small: #{@options[:small_image_url]}, large: #{@options[:large_image_url]}" unless secure_images?
         card[:image] = {}
-        card[:image][:smallImageUrl] = @options[:image_url]
-        card[:image][:largeImageUrl] = @options[:image_url]
+
+        small_image = @options[:small_image_url] || @options[:large_image_url]
+        large_image = @options[:large_image_url] || @options[:small_image_url]
+
+        card[:image][:smallImageUrl] = small_image if small_image
+        card[:image][:largeImageUrl] = large_image if large_image
       end
 
       def link_account?
@@ -57,15 +61,28 @@ module Ralyxa
       end
 
       def simple?
-        !@options[:image_url]
+        !@options[:small_image_url] && !@options[:large_image_url]
       end
 
       def standard?
-        !@options[:image_url].nil?
+        @options[:small_image_url] || @options[:large_image_url]
       end
 
-      def secure?
-        URI.parse(@options[:image_url]).scheme == 'https'
+      def secure_images?
+        small_secure = secure_uri?(@options[:small_image_url])
+        large_secure = secure_uri?(@options[:large_image_url])
+
+        small_secure && large_secure
+      end
+
+      # Given a uri string, retutrn true if:
+      #   * the scheme is https
+      #   * or if we are not interested in the uri being secure
+      #   * or if the value that has been passed is nil
+      def secure_uri?(uri_string)
+        return true if uri_string.nil?
+
+        (URI.parse(uri_string).scheme == 'https' || !Ralyxa.require_secure_urls?)
       end
     end
   end
