@@ -36,6 +36,31 @@ RSpec.describe Ralyxa::ResponseEntities::Response do
       expect(custom_response).to eq expected_response
     end
 
+    it 'returns a hash response with a reprompt if provided' do
+      expected_response = {
+        version: "1.0",
+        response: {
+          outputSpeech: {
+            type: "PlainText",
+            text: "Custom String"
+          },
+          reprompt: {
+            outputSpeech: {
+              type: "PlainText",
+              text: "Please say that again."
+            },
+          },
+          shouldEndSession: false
+        }
+      }
+
+      output_speech = { type: "PlainText", text: "Custom String" }
+      reprompt = { outputSpeech: { type: "PlainText", text: "Please say that again." } }
+      custom_response = described_class.as_hash(output_speech: output_speech, reprompt: reprompt)
+
+      expect(custom_response).to eq expected_response
+    end
+
     it 'can use SSML if provided' do
       expected_response = {
         version: "1.0",
@@ -50,6 +75,30 @@ RSpec.describe Ralyxa::ResponseEntities::Response do
 
       output_speech = { type: "SSML", ssml: "<speak>Hello World</speak>" }
       ssml_response = described_class.as_hash(output_speech: output_speech)
+      expect(ssml_response).to eq expected_response
+    end
+
+    it 'can use SSML for reprompt if provided' do
+      expected_response = {
+        version: "1.0",
+        response: {
+          outputSpeech: {
+            type: "SSML",
+            ssml: "<speak>Hello World</speak>"
+          },
+          reprompt: {
+            outputSpeech: {
+              type: "SSML",
+              text: "<speak>Please say that again.</speak>"
+            },
+          },
+          shouldEndSession: false
+        }
+      }
+
+      output_speech = { type: "SSML", ssml: "<speak>Hello World</speak>" }
+      reprompt = { outputSpeech: { type: "SSML", text: "<speak>Please say that again.</speak>" } }
+      ssml_response = described_class.as_hash(output_speech: output_speech, reprompt: reprompt)
       expect(ssml_response).to eq expected_response
     end
 
