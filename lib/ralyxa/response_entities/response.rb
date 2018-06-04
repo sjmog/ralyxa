@@ -1,11 +1,13 @@
 require_relative './output_speech'
+require_relative './reprompt'
 require_relative './directives'
 
 module Ralyxa
   module ResponseEntities
     class Response
-      def initialize(output_speech, session_attributes, end_session, start_over, card, directives)
+      def initialize(output_speech, reprompt, session_attributes, end_session, start_over, card, directives)
         @output_speech      = output_speech
+        @reprompt           = reprompt
         @session_attributes = session_attributes
         @end_session        = end_session
         @start_over         = start_over
@@ -21,8 +23,8 @@ module Ralyxa
         end
       end
 
-      def self.as_hash(output_speech: false, session_attributes: {}, end_session: false, start_over: false, card: false, directives: false)
-        new(output_speech, session_attributes, end_session, start_over, card, directives).to_h
+      def self.as_hash(output_speech: false, reprompt: false, session_attributes: {}, end_session: false, start_over: false, card: false, directives: false)
+        new(output_speech, reprompt, session_attributes, end_session, start_over, card, directives).to_h
       end
 
       private
@@ -41,6 +43,7 @@ module Ralyxa
       def add_response(response)
         response[:response] = {}.tap do |response_object|
           response_object[:outputSpeech]     = @output_speech if @output_speech
+          response_object[:reprompt]         = @reprompt      if @reprompt
           response_object[:card]             = @card          if @card
           response_object[:directives]       = @directives    if @directives
           response_object[:shouldEndSession] = @end_session
