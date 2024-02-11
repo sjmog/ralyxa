@@ -16,10 +16,12 @@ module Ralyxa
 
     def build
       merge_output_speech if response_text_exists?
-      merge_reprompt if reprompt_exists?
-      merge_card if card_exists?
-
-      @response_class.as_hash(@options).to_json
+      merge_reprompt      if reprompt_exists?
+      merge_card          if card_exists?
+      
+      # method that avoids ArgumentError caused by positional and keyword argument separation differences between Ruby 2 and 3
+      # see /lib/ralyxa/ruby_version_manager.rb 
+      manage_ruby_version_for(@response_class, method: :as_hash, data: @options).to_json
     end
 
     private
@@ -52,14 +54,19 @@ module Ralyxa
       output_speech_params = { speech: @options.delete(:response_text) }
       output_speech_params[:ssml] = @options.delete(:ssml) if @options[:ssml]
 
-      @output_speech_class.as_hash(output_speech_params)
+      # method that avoids ArgumentError caused by positional and keyword argument separation differences between Ruby 2 and 3
+      # see /lib/ralyxa/ruby_version_manager.rb
+      manage_ruby_version_for(@output_speech_class, method: :as_hash, data: output_speech_params)
     end
 
     def reprompt
       reprompt_params = { reprompt_speech: @options.delete(:reprompt) }
       reprompt_params[:reprompt_ssml] = @options.delete(:reprompt_ssml) if @options[:reprompt_ssml]
 
-      @reprompt_class.as_hash(reprompt_params)
+      # method that avoids ArgumentError caused by positional and keyword argument separation differences between Ruby 2 and 3
+      # see /lib/ralyxa/ruby_version_manager.rb
+      manage_ruby_version_for(@reprompt_class, method: :as_hash, data: reprompt_params)
     end
+
   end
 end
