@@ -12,15 +12,16 @@ module Ralyxa
       raise NotImplementedError
     end
 
-    def respond(response_text = '', response_details = {}, response_builder = Ralyxa::ResponseBuilder)
-      options = response_details
-      options[:response_text] = response_text if response_text
+    %w( respond tell ).each do |method_name|
+      define_method method_name do |response_text = '', response_details = {}, response_builder = Ralyxa::ResponseBuilder|
+        options = response_details
+        options[:response_text] = response_text if response_text
+        options.merge(end_session: true)        if method_name.eql?("tell")
 
-      response_builder.build(options)
-    end
-
-    def tell(response_text = '', response_details = {})
-      respond(response_text, response_details.merge(end_session: true))
+        # method that avoids ArgumentError caused by positional and keyword argument separation differences between Ruby 2 and 3
+        # see /lib/ralyxa/ruby_version_manager.rb
+        manage_ruby_version_for(response_builder, method: :build, data: options)
+      end
     end
 
     def card(title, body, image_url = nil, card_class = Ralyxa::ResponseEntities::Card)

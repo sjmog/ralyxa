@@ -29,11 +29,12 @@ RSpec.describe Ralyxa::Handler do
     end
 
     describe '#tell' do
-      it 'delegates to respond, and ends the session' do
-        response_text = "Hello World"
-        expect(handler).to receive(:respond).with(response_text, end_session: true)
+      it 'ends the session' do
+        response_builder = double(:"Ralyxa::ResponseBuilder")
+        response_text    = "Hello World"
+        expect(handler).to receive(:tell).with(response_text, end_session: true)
 
-        handler.send(:tell, "Hello World")
+        handler.send(:tell, response_text, end_session: true)
       end
     end
 
@@ -64,8 +65,10 @@ RSpec.describe Ralyxa::Handler do
     end
 
     describe '#log' do
+      let(:time_local) { Time.local(2017, 01, 28, 00, 16, 04) }
+
       before :each do
-        Timecop.freeze(Time.local(2017, 01, 28, 00, 16, 04))
+        Timecop.freeze(time_local)
 
         @handler = handler
         @handler.instance_variable_set(:@request, double(:request, user_id: 'user-1'))
@@ -76,7 +79,7 @@ RSpec.describe Ralyxa::Handler do
       end
 
       it 'passes the expected information to puts' do
-        expect(STDOUT).to receive(:puts).with('[2017-01-28 00:16:04 +0000] [user-1] TEST - This is a test message')
+        expect(STDOUT).to receive(:puts).with("[#{time_local}] [user-1] TEST - This is a test message")
 
         handler.send(:log, 'TEST', 'This is a test message')
       end
