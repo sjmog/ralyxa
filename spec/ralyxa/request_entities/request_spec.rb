@@ -53,6 +53,19 @@ RSpec.describe Ralyxa::RequestEntities::Request, vcr: true do
     end
   end
 
+  describe '#locale' do
+    it 'returns the locale value from the request' do
+      stubbed_request = stub_sinatra_request({
+        "request": {
+          "type": "IntentRequest",
+          "locale": "en-GB"
+        }
+      }.to_json)
+
+      expect(described_class.new(stubbed_request).locale).to eq "en-GB"
+    end
+  end
+
   describe '#new_session?' do
     it 'is true if this is a new session' do
       stubbed_request = stub_sinatra_request({

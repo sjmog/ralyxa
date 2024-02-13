@@ -2,6 +2,7 @@ require 'ralyxa/version'
 require 'ralyxa/configuration'
 require 'ralyxa/register_intents'
 require 'ralyxa/skill'
+require 'ralyxa/ruby_version_manager'
 
 module Ralyxa
   class << self

@@ -29,6 +29,10 @@ module Ralyxa
         @request['request']['intent']['name']
       end
 
+      def locale
+        @request['request']['locale']
+      end
+
       def slot_value(slot_name)
         @request['request']['intent']['slots'][slot_name]['value']
       end

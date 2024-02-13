@@ -152,6 +152,14 @@ request.user_access_token # => returns the `accessToken` value from the request 
 request.user_access_token_exists? # => true if the user has an access token, false if not
 ```
 
+##### Reading the skill's locale
+
+You can also read the skill's `locale`. A locale is basically a combination of a language and a location of your skill:
+
+```ruby
+request.locale #=> returns "en-GB", "it-IT", "ja-JP"...
+```
+
 > Go check out the `Alexa::Request` object to see what else you can do with the `request`.
 
 ##### Ending sessions

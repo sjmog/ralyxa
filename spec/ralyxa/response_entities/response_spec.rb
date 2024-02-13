@@ -7,13 +7,13 @@ RSpec.describe Ralyxa::ResponseEntities::Response do
   describe '.as_hash' do
     it 'returns an empty response if no options are provided' do
       expected_response = {
-          version: "1.0",
-          response: {
-              shouldEndSession: false
-          }
+        version: "1.0",
+        response: {
+          shouldEndSession: false
+        }
       }
 
-      custom_response = described_class.as_hash({})
+      custom_response = described_class.as_hash()
 
       expect(custom_response).to eq expected_response
     end
